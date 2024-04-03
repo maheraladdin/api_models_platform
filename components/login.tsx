@@ -1,9 +1,8 @@
 import {DialogContent, DialogDescription, DialogHeader, DialogTitle} from "@/components/ui/dialog";
-import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import Logo from "@/public/logo-removebg-preview.png";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Button} from "@/components/ui/button";
-import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -11,6 +10,7 @@ import {useForm} from "react-hook-form";
 import Image from "next/image";
 import {useState} from "react";
 import {z} from "zod";
+import {Eye, EyeOff} from "lucide-react";
 
 const loginSchema = z.object({
     email: z.string().email({message: "Invalid email"}),
@@ -20,6 +20,7 @@ const loginSchema = z.object({
 export const Login = ({setLogin}: {
     setLogin: (value: boolean) => void
 }) => {
+    const [viewPassword, setViewPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
     const form = useForm({
         defaultValues: {
@@ -54,11 +55,11 @@ export const Login = ({setLogin}: {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <FormField
                             {...register("email")}
-                            render={() => (
+                            render={({field}) => (
                                 <FormItem className={"mb-3"}>
-                                    <Label htmlFor={"email"} className={"text-black"}>Email</Label>
+                                    <FormLabel className={"text-black"}>Email</FormLabel>
                                     <FormControl>
-                                        <Input id={"email"} className={"bg-transparent text-blue-dark"} type="email"
+                                        <Input {...field} className={"bg-transparent text-blue-dark"} type="email"
                                                placeholder="elshehawy@gmail.com"/>
                                     </FormControl>
                                     <FormMessage/>
@@ -67,14 +68,17 @@ export const Login = ({setLogin}: {
                         />
                         <FormField
                             {...register("password")}
-                            render={() => (
-                                <FormItem className={"mb-5"}>
-                                    <Label htmlFor={"password"} className={"text-black"}>Password</Label>
+                            render={({field}) => (
+                                <FormItem className={"mb-5 relative"}>
+                                    <FormLabel className={"text-black"}>Password</FormLabel>
                                     <FormControl>
-                                        <Input id={"password"} className={"bg-transparent text-blue-dark"}
-                                               type="password" placeholder="Email"/>
+                                        <Input {...field} className={"bg-transparent text-blue-dark"}
+                                               type={viewPassword ? "text" : "password"} placeholder="**********"/>
                                     </FormControl>
                                     <FormMessage/>
+                                    <div className={"bg-white"} onClick={() => setViewPassword(prevState => !prevState)}>
+                                        {viewPassword ? <Eye className={"absolute top-10 right-2 cursor-pointer"} /> : <EyeOff className={"absolute top-10 right-2 cursor-pointer"} />}
+                                    </div>
                                 </FormItem>
                             )}
                         />

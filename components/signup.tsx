@@ -1,9 +1,8 @@
 import {DialogContent, DialogDescription, DialogHeader, DialogTitle} from "@/components/ui/dialog";
-import {Form, FormControl, FormField, FormItem, FormMessage} from "@/components/ui/form";
+import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import Logo from "@/public/logo-removebg-preview.png";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Button} from "@/components/ui/button";
-import {Label} from "@/components/ui/label";
 import {Input} from "@/components/ui/input";
 
 import {zodResolver} from "@hookform/resolvers/zod";
@@ -11,6 +10,7 @@ import {useForm} from "react-hook-form";
 import Image from "next/image";
 import {useState} from "react";
 import {z} from "zod";
+import {Eye, EyeOff} from "lucide-react";
 
 const signupSchema = z.object({
     email: z.string().email({message: "Invalid email"}),
@@ -24,6 +24,8 @@ const signupSchema = z.object({
 export const Signup = ({setLogin}: {
     setLogin: (value: boolean) => void
 }) => {
+    const [viewPassword, setViewPassword] = useState(false);
+    const [viewConfirmPassword, setViewConfirmPassword] = useState(false);
     const [agree, setAgree] = useState(false);
     const form = useForm({
         defaultValues: {
@@ -35,6 +37,7 @@ export const Signup = ({setLogin}: {
             confirmPassword: "",
         },
         resolver: zodResolver(signupSchema),
+        mode: "onBlur",
     });
     const {register, handleSubmit} = form;
 
@@ -63,11 +66,11 @@ export const Signup = ({setLogin}: {
                         <div className={"flex gap-3 w-full"}>
                             <FormField
                                 {...register("firstname")}
-                                render={() => (
+                                render={({field}) => (
                                     <FormItem className={"mb-3 w-full"}>
-                                        <Label htmlFor={"firstname"} className={"text-black"}>First Name</Label>
+                                        <FormLabel className={"text-black"}>First Name</FormLabel>
                                         <FormControl>
-                                            <Input id={"firstname"} className={"bg-transparent text-blue-dark"}
+                                            <Input {...field} className={"bg-transparent text-blue-dark"}
                                                    placeholder="john"/>
                                         </FormControl>
                                         <FormMessage/>
@@ -76,11 +79,11 @@ export const Signup = ({setLogin}: {
                             />
                             <FormField
                                 {...register("lastname")}
-                                render={() => (
+                                render={({field}) => (
                                     <FormItem className={"mb-3 w-full"}>
-                                        <Label htmlFor={"lastname"} className={"text-black"}>Last Name</Label>
+                                        <FormLabel className={"text-black"}>Last Name</FormLabel>
                                         <FormControl>
-                                            <Input id={"lastname"} className={"bg-transparent text-blue-dark"}
+                                            <Input {...field} className={"bg-transparent text-blue-dark"}
                                                     placeholder="doe"/>
                                         </FormControl>
                                         <FormMessage/>
@@ -91,11 +94,11 @@ export const Signup = ({setLogin}: {
                         <div className={"flex gap-3 w-full"}>
                             <FormField
                                 {...register("email")}
-                                render={() => (
+                                render={({field}) => (
                                     <FormItem className={"mb-3 w-full"}>
-                                        <Label htmlFor={"email"} className={"text-black"}>Email</Label>
+                                        <FormLabel className={"text-black"}>Email</FormLabel>
                                         <FormControl>
-                                            <Input id={"email"} className={"bg-transparent text-blue-dark"} type="email"
+                                            <Input {...field} className={"bg-transparent text-blue-dark"} type="email"
                                                    placeholder="elshehawy@gmail.com"/>
                                         </FormControl>
                                         <FormMessage/>
@@ -104,11 +107,11 @@ export const Signup = ({setLogin}: {
                             />
                             <FormField
                                 {...register("phone")}
-                                render={() => (
+                                render={({field}) => (
                                     <FormItem className={"mb-3 w-full"}>
-                                        <Label htmlFor={"phone"} className={"text-black"}>Phone Number</Label>
+                                        <FormLabel className={"text-black"}>Phone Number</FormLabel>
                                         <FormControl>
-                                            <Input id={"phone"} className={"bg-transparent text-blue-dark"}
+                                            <Input {...field} className={"bg-transparent text-blue-dark"}
                                                    type="tel" placeholder="010*************"/>
                                         </FormControl>
                                         <FormMessage/>
@@ -118,27 +121,37 @@ export const Signup = ({setLogin}: {
                         </div>
                         <FormField
                             {...register("password")}
-                            render={() => (
-                                <FormItem className={"mb-3 w-full"}>
-                                    <Label htmlFor={"password"} className={"text-black"}>Password</Label>
+                            render={({field}) => (
+                                <FormItem className={"mb-3 w-full relative"}>
+                                    <FormLabel className={"text-black"}>Password</FormLabel>
                                     <FormControl>
-                                        <Input id={"password"} className={"bg-transparent text-blue-dark"}
-                                               type="password" placeholder="**********"/>
+                                        <Input {...field} className={"bg-transparent text-blue-dark"}
+                                               type={viewPassword ? "text" : "password"} placeholder="**********"/>
                                     </FormControl>
                                     <FormMessage/>
+                                    <div className={"bg-white"}
+                                         onClick={() => setViewPassword(prevState => !prevState)}>
+                                        {viewPassword ? <Eye className={"absolute top-10 right-2 cursor-pointer"}/> :
+                                            <EyeOff className={"absolute top-10 right-2 cursor-pointer"}/>}
+                                    </div>
                                 </FormItem>
                             )}
                         />
                         <FormField
                             {...register("confirmPassword")}
-                            render={() => (
-                                <FormItem className={"mb-3 w-full"}>
-                                    <Label htmlFor={"confirmPassword"} className={"text-black"}>Confirm Password</Label>
+                            render={({field}) => (
+                                <FormItem className={"mb-3 w-full relative"}>
+                                    <FormLabel className={"text-black"}>Confirm Password</FormLabel>
                                     <FormControl>
-                                        <Input id={"confirmPassword"} className={"bg-transparent text-blue-dark"}
-                                               type="password" placeholder="**********"/>
+                                        <Input {...field} className={"bg-transparent text-blue-dark"}
+                                               type={viewConfirmPassword ? "text" : "password"} placeholder="**********"/>
                                     </FormControl>
                                     <FormMessage/>
+                                    <div className={"bg-white"}
+                                         onClick={() => setViewConfirmPassword(prevState => !prevState)}>
+                                        {viewConfirmPassword ? <Eye className={"absolute top-10 right-2 cursor-pointer"}/> :
+                                            <EyeOff className={"absolute top-10 right-2 cursor-pointer"}/>}
+                                    </div>
                                 </FormItem>
                             )}
                         />
