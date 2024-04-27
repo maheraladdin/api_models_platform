@@ -12,7 +12,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@/components/ui/form";
-// import Logo from "@/public/logo-removebg-preview.png";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
