@@ -1,6 +1,6 @@
 import {DialogContent, DialogDescription, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
-import Logo from "@/public/logo-removebg-preview.png";
+// import Logo from "@/public/logo-removebg-preview.png";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
@@ -40,7 +40,7 @@ export const Login = ({setLogin}: {
         <DialogContent noCloseButton className={"min-w-[50vw] w-full bg-light pb-12"}>
             <DialogHeader className={"flex justify-center flex-col items-center px-16"}>
                 <Image
-                    src={Logo}
+                    src={"/logo-removebg-preview.png"}
                     width={200}
                     height={100}
                     alt={"logo"}

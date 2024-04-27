@@ -1,5 +1,5 @@
 "use client";
-import AuthBackground from "@/public/auth_background.png";
+// import AuthBackground from "@/public/auth_background.png";
 import {
     Dialog,
 } from "@/components/ui/dialog";
@@ -20,7 +20,7 @@ export default function Auth() {
         <div
             className={"min-h-screen w-screen bg-cover bg-center brightness-75"}
             style={{
-                backgroundImage: `url(${AuthBackground.src})`,
+                backgroundImage: `url(/auth_background.png)`,
             }}
         >
             <Dialog defaultOpen open={open} onOpenChange={() => setOpen(true)} modal={false}>
