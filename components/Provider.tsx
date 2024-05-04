@@ -2,6 +2,8 @@
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 import {ThemeProvider} from "@/components/theme-provider";
 import React from "react";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+
 
 const queryClient = new QueryClient()
 
@@ -18,6 +20,7 @@ export const Provider = ({children}: {
             >
                 {children}
             </ThemeProvider>
+            <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>
     )
 }
