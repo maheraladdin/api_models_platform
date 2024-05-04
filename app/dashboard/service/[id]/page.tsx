@@ -6,13 +6,15 @@ import {
 	CardHeader,
 	CardFooter,
 } from "@/components/ui/card";
-import Image from "next/image";
 import {Services} from "@/components/services";
+import {DropZone} from "@/components/dropzone";
+import {SidebarSheet} from "@/components/sidebar-sheet";
 
 export default function ServicePage({ params }: { params: { id: string } }) {
 	return (
-		<div className="flex flex-col flex-grow">
+		<div className="flex flex-col">
 			<div className="flex items-center justify-between h-16 mb-6 bg-white shadow">
+				<SidebarSheet />
 				<Input className="mx-4 m-3" placeholder="Search area" />
 				<div className="flex items-center mr-4 space-x-2">
 					<Button variant="ghost">
@@ -26,8 +28,8 @@ export default function ServicePage({ params }: { params: { id: string } }) {
 					</Button>
 				</div>
 			</div>
-			<div className="grid grid-cols-3 gap-2">
-				<Card className="col-span-2 flex flex-col justify-between h-[250px]">
+			<div className="grid grid-cols-1 lg:grid-cols-3 gap-2">
+				<Card className="lg:col-span-2 flex flex-col justify-between">
 					<CardHeader>
 						<CardTitle className="text-center font-bold ">
 							Image description
@@ -40,13 +42,13 @@ export default function ServicePage({ params }: { params: { id: string } }) {
 						<Button className="px-10">Share</Button>
 					</CardFooter>
 				</Card>
-				<Card className="h-[250px] flex flex-col justify-center align-center cursor-pointer">
-						<Image src="/upload.png" width={342 * 0.8} height={357 * 0.8} className="p-12" alt="upload"/>
+				<Card className="flex p-4 pt-2 flex-col justify-center align-center cursor-pointer">
+					<DropZone />
 				</Card>
 			</div>
             <div>
-            <h2 className="mt-5 mb-3 text-xl font-semibold">Explore Other services </h2>
-				<div className="grid grid-cols-5 gap-5">
+            	<h2 className="mt-5 mb-3 text-xl font-semibold">Explore Other services </h2>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-5">
 					{Array(5).fill(0).map((e, i) => (
                         <Services key={"service - " + i} src="/service.png" name={"service - " + i} />
                     ))}

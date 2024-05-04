@@ -7,8 +7,10 @@ export default function DashboardLayout({
 }) {
 
     return (
-        <div className="flex h-screen p-8 bg-gray-100">
-            <Sidebar />
+        <div className="flex min-h-screen h-full p-8 bg-gray-100">
+            <div className={"hidden lg:block"}>
+                <Sidebar />
+            </div>
             {children}
         </div>
     )
