@@ -3,10 +3,10 @@ import { Inter as FontSans } from "next/font/google"
 
 import { cn } from "@/lib/utils"
 import React from "react";
-import {ThemeProvider} from "@/components/theme-provider";
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "@/app/api/uploadthing/core";
+import {Provider} from "@/components/Provider";
 
 
 const fontSans = FontSans({
@@ -39,14 +39,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
                */
               routerConfig={extractRouterConfig(ourFileRouter)}
           />
-        <ThemeProvider
-            attribute="class"
-            defaultTheme="light"
-            enableSystem={true}
-            storageKey="theme"
-        >
-            {children}
-        </ThemeProvider>
+          <Provider>
+                {children}
+          </Provider>
       </body>
     </html>
   )

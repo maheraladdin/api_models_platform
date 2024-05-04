@@ -10,6 +10,9 @@ import Image from "next/image";
 import {useState} from "react";
 import {z} from "zod";
 import {Eye, EyeOff} from "lucide-react";
+import {useUser} from "@/hooks/useUser";
+import axios from "axios";
+import {useRouter} from "next/navigation";
 
 const loginSchema = z.object({
     email: z.string().email({message: "Invalid email"}),
@@ -19,6 +22,8 @@ const loginSchema = z.object({
 export const Login = ({setLogin}: {
     setLogin: (value: boolean) => void
 }) => {
+    const router = useRouter();
+    const setUser = useUser(state => state.setUser);
     const [viewPassword, setViewPassword] = useState(false);
     const [rememberMe, setRememberMe] = useState(false);
     const form = useForm({
@@ -30,9 +35,11 @@ export const Login = ({setLogin}: {
     });
     const {register, handleSubmit} = form;
 
-    const onSubmit = (formData: z.infer<typeof loginSchema>) => {
+    const onSubmit = async (formData: z.infer<typeof loginSchema>) => {
         const {email, password} = formData;
-        console.log(email, password)
+        const res = await axios.post("/api/login", {email, password});
+        setUser(res.data);
+        router.push("/dashboard");
     }
 
     return (
