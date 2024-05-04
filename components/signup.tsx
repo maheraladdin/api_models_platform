@@ -67,6 +67,7 @@ export const Signup = ({
 	const onSubmit = (formData: z.infer<typeof signupSchema>) => {
 		const { firstname, lastname, email, phone, password, confirmPassword } =
 			formData;
+		const username = `${firstname} ${lastname}`;
 		console.log(firstname, lastname, email, phone, password, confirmPassword);
 	};
 
