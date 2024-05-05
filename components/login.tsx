@@ -1,4 +1,3 @@
-import {DialogContent, DialogDescription, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form";
 import {Checkbox} from "@/components/ui/checkbox";
 import {Button} from "@/components/ui/button";
@@ -13,6 +12,8 @@ import {Eye, EyeOff} from "lucide-react";
 import {useUser} from "@/hooks/useUser";
 import axios from "axios";
 import {useRouter} from "next/navigation";
+import toast from "react-hot-toast";
+import {CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 
 const loginSchema = z.object({
     email: z.string().email({message: "Invalid email"}),
@@ -28,8 +29,8 @@ export const Login = ({setLogin}: {
     const [rememberMe, setRememberMe] = useState(false);
     const form = useForm({
         defaultValues: {
-            email: "",
-            password: "",
+            email: "maheraladdin@outlook.com",
+            password: "12345678",
         },
         resolver: zodResolver(loginSchema),
     });
@@ -37,25 +38,30 @@ export const Login = ({setLogin}: {
 
     const onSubmit = async (formData: z.infer<typeof loginSchema>) => {
         const {email, password} = formData;
-        const res = await axios.post("/api/auth/login", {email, password});
-        setUser(res.data.user);
-        router.push("/dashboard");
+        try {
+            const res = await axios.post("/api/auth/login", {email, password});
+            toast.success("Logged in successfully");
+            setUser(res.data.user);
+            router.push("/dashboard");
+        } catch (e) {
+            toast.error("Invalid email or password");
+        }
     }
 
     return (
-        <DialogContent noCloseButton className={"min-w-[50vw] w-full bg-light pb-12"}>
-            <DialogHeader className={"flex justify-center flex-col items-center px-16"}>
+        <CardContent className={"min-w-[50vw] w-full bg-light pb-12"}>
+            <CardHeader className={"flex justify-center flex-col items-center px-16"}>
                 <Image
                     src={"/logo-removebg-preview.png"}
                     width={200}
                     height={100}
                     alt={"logo"}
                 />
-                <DialogTitle className={"w-full font-bold text-blue-dark text-4xl pb-5"}>Login</DialogTitle>
-                <DialogDescription className={"w-full text-gray-600"}>
+                <CardTitle className={"w-full font-bold text-blue-dark text-4xl pb-5"}>Login</CardTitle>
+                <CardDescription className={"w-full text-gray-600"}>
                     Login to access your travel wise account
-                </DialogDescription>
-            </DialogHeader>
+                </CardDescription>
+            </CardHeader>
             <div className={"px-16 py-2 "}>
                 <Form {...form}>
                     <form onSubmit={handleSubmit(onSubmit)}>
@@ -115,6 +121,6 @@ export const Login = ({setLogin}: {
                     </form>
                 </Form>
             </div>
-        </DialogContent>
+        </CardContent>
     )
 }

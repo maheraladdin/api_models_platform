@@ -1,31 +1,24 @@
 "use client";
-// import AuthBackground from "@/public/auth_background.png";
-import {
-    Dialog,
-} from "@/components/ui/dialog";
-import {useEffect, useState} from "react";
+
+import {useState} from "react";
 import {Login} from "@/components/login";
 import {Signup} from "@/components/signup";
+import {Card} from "@/components/ui/card";
 
 
 export default function Auth() {
-    const [open, setOpen] = useState(true);
-    const [mounted, setMounted] = useState(false);
     const [login, setLogin] = useState(true);
-    useEffect(() => {
-        setMounted(true);
-    }, []);
 
-    return mounted ? (
+    return (
         <div
-            className={"min-h-screen w-screen bg-cover bg-center brightness-75"}
+            className={"min-h-screen flex justify-center items-center h-full w-screen bg-cover bg-center brightness-75"}
             style={{
                 backgroundImage: `url(/auth_background.png)`,
             }}
         >
-            <Dialog defaultOpen open={open} onOpenChange={() => setOpen(true)} modal={false}>
+            <Card className={"h-full w-fit my-10"}>
                 {login ? <Login setLogin={setLogin} /> : <Signup setLogin={setLogin} />}
-            </Dialog>
+            </Card>
         </div>
-    ) : null
+    )
 }

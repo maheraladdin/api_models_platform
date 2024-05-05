@@ -1,10 +1,4 @@
 import {
-	DialogContent,
-	DialogDescription,
-	DialogHeader,
-	DialogTitle,
-} from "@/components/ui/dialog";
-import {
 	Form,
 	FormControl,
 	FormField,
@@ -25,6 +19,8 @@ import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 import {useRouter} from "next/navigation";
 import {useUser} from "@/hooks/useUser";
+import toast from "react-hot-toast";
+import {CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
 
 const signupSchema = z.object({
 	email: z.string().email({ message: "Invalid email" }),
@@ -73,23 +69,27 @@ export const Signup = ({
 		const { firstname, lastname, email, phone, password, confirmPassword } =
 			formData;
 		const username = `${firstname} ${lastname}`;
-		const res = await axios.post("/api/auth/signup", {
-			username,
-			email,
-			password,
-			confirmPassword,
-			phone
-		});
-		setUser(res.data.user);
-		router.push("/dashboard");
+		try {
+			const res = await axios.post("/api/auth/signup", {
+				username,
+				email,
+				password,
+				confirmPassword,
+				phone
+			});
+			toast.success("Account created successfully");
+			setUser(res.data.user);
+			router.push("/dashboard");
+		} catch (e) {
+			toast.error("Something went wrong, please try again later");
+		}
 	};
 
 	return (
-		<DialogContent
-			noCloseButton
+		<CardContent
 			className={"min-w-[50vw] w-full bg-light pb-12"}
 		>
-			<DialogHeader
+			<CardHeader
 				className={"flex justify-center flex-col items-center px-16"}
 			>
 				<Image
@@ -98,15 +98,15 @@ export const Signup = ({
 					height={100}
 					alt={"logo"}
 				/>
-				<DialogTitle
+				<CardTitle
 					className={"w-full font-bold text-blue-dark text-4xl pb-5"}
 				>
 					Sign up
-				</DialogTitle>
-				<DialogDescription className={"w-full text-gray-600"}>
+				</CardTitle>
+				<CardDescription className={"w-full text-gray-600"}>
 					Let’s get you all st up so you can access your personal account.
-				</DialogDescription>
-			</DialogHeader>
+				</CardDescription>
+			</CardHeader>
 			<div className={"px-16 py-2 "}>
 				<Form {...form}>
 					<form onSubmit={handleSubmit(onSubmit)}>
@@ -287,6 +287,6 @@ export const Signup = ({
 					</form>
 				</Form>
 			</div>
-		</DialogContent>
+		</CardContent>
 	);
 };

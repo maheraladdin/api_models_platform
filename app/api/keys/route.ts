@@ -21,6 +21,13 @@ export const POST = async (req: NextRequest) => {
     const protectedRequest = await getProtectedRequest(req) as ProtectedRequest;
     const body = await req.json();
     const {limit}: {limit: number} = body;
+
+    if(limit > protectedRequest.user.limit) {
+        return new NextResponse("Limit cannot be greater than your account limit", {
+            status: 400
+        });
+    }
+
     const key = await db.keys.create({
         data: {
             userId: protectedRequest.user.id,
