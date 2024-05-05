@@ -70,16 +70,17 @@ export const Signup = ({
 	const { register, handleSubmit } = form;
 
 	const onSubmit = async (formData: z.infer<typeof signupSchema>) => {
-		const { firstname, lastname, email, password, confirmPassword } =
+		const { firstname, lastname, email, phone, password, confirmPassword } =
 			formData;
 		const username = `${firstname} ${lastname}`;
-		const res = await axios.post("/api/login", {
+		const res = await axios.post("/api/auth/signup", {
 			username,
 			email,
 			password,
 			confirmPassword,
+			phone
 		});
-		setUser(res.data);
+		setUser(res.data.user);
 		router.push("/dashboard");
 	};
 

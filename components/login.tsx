@@ -37,8 +37,8 @@ export const Login = ({setLogin}: {
 
     const onSubmit = async (formData: z.infer<typeof loginSchema>) => {
         const {email, password} = formData;
-        const res = await axios.post("/api/login", {email, password});
-        setUser(res.data);
+        const res = await axios.post("/api/auth/login", {email, password});
+        setUser(res.data.user);
         router.push("/dashboard");
     }
 
